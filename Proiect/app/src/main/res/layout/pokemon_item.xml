@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center">
+
+<ImageView
+android:id="@+id/pokemon_image"
+android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:scaleType="fitCenter"
+    android:contentDescription="Pokemon Image" />
+
+<TextView
+android:id="@+id/pokemon_info"
+android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    android:textSize="20sp"
+    android:textColor="#000"
+    android:gravity="center"
+    android:text="Pokémon Name" />
+    </LinearLayout>

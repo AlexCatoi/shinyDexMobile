@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/full_pokemon_list"
+        android:icon="@drawable/shiny_icon"
+    android:title="ShinyDex" />
+
+    <item
+        android:id="@+id/nav_add_pokemon"
+
+    android:title="Search" />
+
+    <!-- Menu item for third tab -->
+    <item
+        android:id="@+id/nav_profile"
+
+    android:title="Profile" />
+
+</menu>

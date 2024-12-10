@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dropdown options for Pokémon filtering -->
+    <string-array name="type_options">
+        <item>All Types</item>
+        <item>Fire</item>
+        <item>Water</item>
+        <item>Grass</item>
+        <item>Electric</item>
+        <item>Dark</item>
+
+    </string-array>
+
+    <string-array name="game_options">
+        <item>All Games</item>
+        <item>Sword/Shield</item>
+        <item>Lets go Pikachu/Eevee</item>
+        <item>Brilliand Diamond/Shining Pearl</item>
+        <item>Legends Arceus</item>
+        <item>Scarlet/Violet</item>
+    </string-array>
+
+    <string-array name="generation_options">
+        <item>All Generations</item>
+        <item>Generation I</item>
+        <item>Generation II</item>
+        <item>Generation III</item>
+        <item>Generation IV</item>
+        <item>Generation V</item>
+        <item>Generation VI</item>
+        <item>Generation VII</item>
+        <item>Generation VIII</item>
+        <item>Generation IX</item>
+    </string-array>
+</resources>
