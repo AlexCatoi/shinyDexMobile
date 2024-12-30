@@ -39,7 +39,7 @@ public class AddPokemonFragment extends Fragment {
     private Button btnAddPokemon;
 
     private List<String> gameList; // List of games for spinner
-
+private PokemonFetcher util;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public class AddPokemonFragment extends Fragment {
         checkboxShinyCharm = view.findViewById(R.id.checkbox_shiny_charm);
         checkboxShinyLuck = view.findViewById(R.id.checkbox_shiny_luck);
         btnAddPokemon = view.findViewById(R.id.btn_add_pokemon);
-
+        util = new PokemonFetcher(getContext(),getActivity());
         // Set Add Pokémon button click listener
         btnAddPokemon.setOnClickListener(v -> addPokemon());
 
@@ -61,6 +61,7 @@ public class AddPokemonFragment extends Fragment {
 
     private void addPokemon() {
         // Get data from UI
+        PokemonAPI api = ApiClient.getClient().create(PokemonAPI.class);
         String pokemonName = inputPokemonName.getText().toString().trim().toLowerCase();
         String selectedGame = spinnerGame.getSelectedItem().toString();
         String methodUsed = inputMethod.getText().toString().trim();
@@ -78,27 +79,39 @@ public class AddPokemonFragment extends Fragment {
             return;
         }
 
-        JSONObject pokemonData = new JSONObject();
-        try {
-            pokemonData.put("name", pokemonName);
-            pokemonData.put("game", selectedGame);
-            pokemonData.put("method", methodUsed);
-            pokemonData.put("hadShinyCharm", hadShinyCharm);
-            pokemonData.put("hadShinyLuck", hadShinyLuck);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Toast.makeText(getContext(), "Failed to create JSON data", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        // Call VerifyPokemonExists with a callback
+        util.VerifyPokemonExists(api, pokemonName, new VerifyPokemonExistsCallback() {
+            @Override
+            public void onResult(boolean exists) {
+                if (!exists) {
+                    Toast.makeText(getContext(), "Pokemon doesn't exist!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-        // Save JSON to a file
-        savePokemonToJsonFile(pokemonData);
+                // If Pokémon exists, create the JSON data
+                JSONObject pokemonData = new JSONObject();
+                try {
+                    pokemonData.put("name", pokemonName);
+                    pokemonData.put("game", selectedGame);
+                    pokemonData.put("method", methodUsed);
+                    pokemonData.put("hadShinyCharm", hadShinyCharm);
+                    pokemonData.put("hadShinyLuck", hadShinyLuck);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getContext(), "Failed to create JSON data", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-        // Display success message
-        Toast.makeText(getContext(), "Pokémon added successfully!", Toast.LENGTH_SHORT).show();
+                // Save JSON to a file
+                savePokemonToJsonFile(pokemonData);
 
-        // Optionally, clear the fields after adding
-        clearFields();
+                // Display success message
+                Toast.makeText(getContext(), "Pokémon added successfully!", Toast.LENGTH_SHORT).show();
+
+                // Optionally, clear the fields after adding
+                clearFields();
+            }
+        });
     }
 
     private void clearFields() {

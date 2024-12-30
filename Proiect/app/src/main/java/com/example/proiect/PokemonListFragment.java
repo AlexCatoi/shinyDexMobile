@@ -54,6 +54,7 @@ public class PokemonListFragment extends Fragment {
         // Start fetching Pokémon data
         util=new PokemonFetcher(getContext(),getActivity(),pokemonContainer);
         jsonhelp=new JsonFileHelper();
+        //jsonhelp.deleteJsonFile(getContext(),"pokemon_caught_data.json");
         fetchAllPokemon(null,null,null,null);
         return rootView;
     }

@@ -34,13 +34,17 @@ public class PokemonFetcher {
     private Call<PokemonListResponse> currentCall;  // Reference to the ongoing call
     private List<PokemonListResponse.PokemonResult> pokemonList;
     private Thread fetchThread;
-
+    private boolean isPokemonExist = false;
     public PokemonFetcher(Context context, Activity activity, GridLayout pokemonContainer) {
         this.context = context;
         this.activity = activity;
         this.pokemonContainer=pokemonContainer;
         this.pokemonList = new ArrayList<>();
         currentOffset=0;
+    }
+    public PokemonFetcher(Context context, Activity activity) {
+        this.context = context;
+        this.activity = activity;
     }
 
 
@@ -355,5 +359,36 @@ public class PokemonFetcher {
 
         // Add the Pokémon view to the GridLayout
         pokemonContainer.addView(pokemonView);
+    }
+
+    public void VerifyPokemonExists(PokemonAPI api, String searchText, VerifyPokemonExistsCallback callback) {
+        if (searchText == null || searchText.trim().isEmpty()) {
+            Toast.makeText(context, "Please enter a Pokémon name", Toast.LENGTH_SHORT).show();
+            callback.onResult(false); // Notify the callback with false if empty
+            return;
+        }
+
+        api.getPokemon(searchText.trim().toLowerCase()).enqueue(new Callback<Pokemon>() {
+            @Override
+            public void onResponse(Call<Pokemon> call, Response<Pokemon> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // Pokémon was found
+                    callback.onResult(true); // Pokémon exists
+                } else {
+                    activity.runOnUiThread(() -> {
+                        Toast.makeText(context, "Pokémon not found", Toast.LENGTH_SHORT).show();
+                    });
+                    callback.onResult(false); // Pokémon does not exist
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Pokemon> call, Throwable t) {
+                activity.runOnUiThread(() -> {
+                    Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                });
+                callback.onResult(false); // Failure scenario
+            }
+        });
     }
 }
