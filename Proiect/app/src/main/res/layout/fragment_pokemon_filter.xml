@@ -8,7 +8,7 @@
     <!-- First row: Search Bar -->
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search_bar"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:queryHint="Search Pokémon"
         />

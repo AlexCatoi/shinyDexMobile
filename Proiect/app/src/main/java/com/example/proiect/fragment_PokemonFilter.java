@@ -51,14 +51,23 @@ public class fragment_PokemonFilter extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 // Perform search operation
                 Toast.makeText(getContext(), "Searching for: " + query, Toast.LENGTH_SHORT).show();
-                selectedname=query;
+                if (query == null || query.trim().isEmpty()) {
+                    selectedname = null;  // Reset to null if the search is empty
+                } else {
+                    selectedname = query;  // Set the query if it's not empty
+                }
                 passFiltersToMainActivity(selectedname, seeAll, selectedType, null,0);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                // Handle text change (optional)
+                if (newText == null || newText.trim().isEmpty()) {
+                    selectedname = null;
+                    passFiltersToMainActivity(selectedname, seeAll, selectedType, null, 0);
+                } else {
+                    selectedname = newText;  // Update query text dynamically
+                }
                 return false;
             }
         });
@@ -67,12 +76,12 @@ public class fragment_PokemonFilter extends Fragment {
         checkboxFilter.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 seeAll=null;
-                /*Toast.makeText(getContext(), "Showing all Pokémon", Toast.LENGTH_SHORT).show();
-                passFiltersToMainActivity(null, null, null, null,0);*/
+                Toast.makeText(getContext(), "Showing all Pokémon", Toast.LENGTH_SHORT).show();
+                passFiltersToMainActivity(null, null, null, null,0);
             } else {
                 seeAll="y";
-               /* Toast.makeText(getContext(), "Showing caught pokemon", Toast.LENGTH_SHORT).show();
-                passFiltersToMainActivity(null, "y", null, null,0);*/
+                Toast.makeText(getContext(), "Showing caught pokemon", Toast.LENGTH_SHORT).show();
+                passFiltersToMainActivity(null, "y", null, null,0);
             }
             passFiltersToMainActivity(selectedname, seeAll, selectedType, null,0);
         });
@@ -87,10 +96,6 @@ public class fragment_PokemonFilter extends Fragment {
                     selectedType=null;
                 Log.d("FilterFragment", "Selected type: " + selectedType);
                 passFiltersToMainActivity(selectedname, seeAll, selectedType, null,0);
-                /*if(selectedType.contains("All"))
-                    passFiltersToMainActivity(null, null, null, null,0);
-                else
-                    passFiltersToMainActivity(null,null,selectedType,null,0);*/
             }
 
             @Override

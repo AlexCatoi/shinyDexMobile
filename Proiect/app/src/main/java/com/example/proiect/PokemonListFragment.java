@@ -60,21 +60,21 @@ public class PokemonListFragment extends Fragment {
 
 
     private void fetchAllPokemon(String searchText, String seeAll, String type, String game) {
-        Toast.makeText(getContext(), "Wait for the data to be loaded", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), "Wait for the data to be loaded", Toast.LENGTH_SHORT).show();
         PokemonAPI api = ApiClient.getClient().create(PokemonAPI.class);
         int numberOfColumns = getOptimalColumnCount();
         pokemonContainer.setColumnCount(numberOfColumns);
 
         if(util!=null)
             util.resetFetcher();
-        if(seeAll==null /*&& searchText==null*/)
+        if(seeAll==null && searchText==null)
             util.fetchPokemonBatch(api, searchText, null, type, game);
-        else if(seeAll!=null /*&& searchText==null*/){
+        else if(seeAll!=null && searchText==null){
             List<String> pokes_caught=jsonhelp.readJsonFile(getContext(),"pokemon_caught_data.json","name");
             Log.d("pokes",""+pokes_caught);
             util.fetchPokemonBatch(api, searchText, pokes_caught, type, game);
         }
-        /*else if(seeAll==null && searchText!=null)
+        else if(seeAll==null && searchText!=null)
         {
             util.fetchPokemonBySearch(api,searchText,type,null);
         }
@@ -82,7 +82,7 @@ public class PokemonListFragment extends Fragment {
             List<String> pokes_caught=jsonhelp.readJsonFile(getContext(),"pokemon_caught_data.json","name");
             Log.d("pokes",""+pokes_caught);
             util.fetchPokemonBySearch(api, searchText, type, pokes_caught);
-        }*/
+        }
 
 
     }

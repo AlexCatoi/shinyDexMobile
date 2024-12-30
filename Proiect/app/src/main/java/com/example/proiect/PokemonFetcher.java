@@ -186,7 +186,6 @@ public class PokemonFetcher {
             // Now check if the Pokémon matches the requested type
             for (Pokemon.TypeSlot typeSlot : pokemonTypes) {
                 if (type.equalsIgnoreCase(typeSlot.getType().getName())) {
-                    Log.d("Show","Show");
                     okType=true;
                 }
             }
@@ -290,19 +289,14 @@ public class PokemonFetcher {
             public void onResponse(Call<Pokemon> call, Response<Pokemon> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Pokemon detailedPokemon = response.body();
-
                     // Check if the Pokémon matches the filter criteria
                     if (shouldDisplayPokemon(detailedPokemon, type, seeAll)) {
                         activity.runOnUiThread(() -> {
                             // Clear existing views (if needed) to show only the search result
                             pokemonList.clear();
                             pokemonContainer.removeAllViews();
-                            // Add the single Pokémon result
-                            PokemonListResponse.PokemonResult result = new PokemonListResponse.PokemonResult();
-                            result.setName(detailedPokemon.getName());
-                            result.setId(detailedPokemon.getId());
 
-                            addPokemonView(result);
+                            addPokemonViewBySearch(detailedPokemon);
                         });
                     } else {
                         activity.runOnUiThread(() -> {
@@ -324,5 +318,42 @@ public class PokemonFetcher {
                 });
             }
         });
+    }
+
+    private void addPokemonViewBySearch(Pokemon pokemon) {
+        // Dynamically inflate the layout for each Pokémon
+        View pokemonView = LayoutInflater.from(context).inflate(R.layout.pokemon_item, pokemonContainer, false);
+        String originalName = pokemon.getName();
+        String filteredName;
+
+        // Filter the Pokémon name if it contains certain substrings
+        if (originalName.contains("-incarnate") ||
+                originalName.contains("-therian") ||
+                originalName.contains("-two-segment")) {
+            filteredName = originalName.split("-")[0]; // Take only the first part
+        } else {
+            filteredName = originalName; // Keep the full name for other cases
+        }
+
+        // Set layout parameters for GridLayout
+        GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
+        layoutParams.width = 0; // This will distribute space equally in the GridLayout
+        layoutParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
+        layoutParams.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f); // Distribute space evenly
+        layoutParams.setMargins(dpToPx(8), dpToPx(8), dpToPx(8), dpToPx(8));
+        pokemonView.setLayoutParams(layoutParams);
+
+        // Set Pokémon name
+        TextView pokemonName = pokemonView.findViewById(R.id.pokemon_info);
+        pokemonName.setText(filteredName);
+
+        // Set Pokémon image (using shiny sprite for this example)
+        ImageView pokemonImage = pokemonView.findViewById(R.id.pokemon_image);
+        Glide.with(context)
+                .load(pokemon.getSprites().getFrontShiny())  // Getting shiny image URL from the `Pokemon` object
+                .into(pokemonImage);
+
+        // Add the Pokémon view to the GridLayout
+        pokemonContainer.addView(pokemonView);
     }
 }
