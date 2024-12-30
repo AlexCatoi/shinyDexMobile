@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         if (mainFragment == null) {
             Log.e("MainActivity", "PokemonListFragment is null. Ensure it is properly added to the container.");
         } else {
-            mainFragment.updateFilters(type,seeAll);
+            mainFragment.updateFilters(searchText,type,seeAll);
         }
     }
 

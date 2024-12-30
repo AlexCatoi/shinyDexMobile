@@ -46,6 +46,8 @@ public class PokemonFetcher {
 
     public void fetchPokemonBatch(PokemonAPI api, String searchText, List<String> seeAll, String type, String game) {
         // Prevent fetching if we're already loading or no more Pokémon are available
+        if(type!=null)
+         Log.d("type",type);
         isRefreshing=false;
         if (isLoading || currentOffset >= totalPokemons || isRefreshing) return; // Stop if already loading, already fetched all, or refreshing is in progress
 
@@ -247,6 +249,9 @@ public class PokemonFetcher {
     }
 
     public synchronized void resetFetcher() {
+
+        if(currentCall!=null)
+            currentCall.cancel();
         // Interrupt the ongoing fetch thread if it's running
         if (fetchThread != null && fetchThread.isAlive()) {
             fetchThread.interrupt();
@@ -256,7 +261,10 @@ public class PokemonFetcher {
                 Log.e("ThreadError", "Failed to join interrupted thread");
             }
         }
-
+        if (fetchThread != null && fetchThread.isAlive())
+        {
+            Log.d("thread:","notstopped");
+        }
         // Now reset everything
         currentOffset = 0;  // Reset the offset
         isLoading = false;  // Reset the loading state
@@ -264,11 +272,57 @@ public class PokemonFetcher {
 
         // Optionally clear the UI if you want to reset it
         pokemonContainer.removeAllViews();
-
         // Log reset to verify
+
         Log.d("ResetFetcher", "Reset complete. currentOffset = " + currentOffset);
         isRefreshing = true;
     }
 
 
+    public void fetchPokemonBySearch(PokemonAPI api, String searchText, String type, List<String> seeAll) {
+        if (searchText == null || searchText.trim().isEmpty()) {
+            Toast.makeText(context, "Please enter a Pokémon name", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        api.getPokemon(searchText.trim().toLowerCase()).enqueue(new Callback<Pokemon>() {
+            @Override
+            public void onResponse(Call<Pokemon> call, Response<Pokemon> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Pokemon detailedPokemon = response.body();
+
+                    // Check if the Pokémon matches the filter criteria
+                    if (shouldDisplayPokemon(detailedPokemon, type, seeAll)) {
+                        activity.runOnUiThread(() -> {
+                            // Clear existing views (if needed) to show only the search result
+                            pokemonList.clear();
+                            pokemonContainer.removeAllViews();
+                            // Add the single Pokémon result
+                            PokemonListResponse.PokemonResult result = new PokemonListResponse.PokemonResult();
+                            result.setName(detailedPokemon.getName());
+                            result.setId(detailedPokemon.getId());
+
+                            addPokemonView(result);
+                        });
+                    } else {
+                        activity.runOnUiThread(() -> {
+                            Toast.makeText(context, "No Pokémon matches the search and filter criteria", Toast.LENGTH_SHORT).show();
+                        });
+                    }
+                } else {
+                    activity.runOnUiThread(() -> {
+                        Toast.makeText(context, "Pokémon not found", Toast.LENGTH_SHORT).show();
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Pokemon> call, Throwable t) {
+                Log.e("API_ERROR", "Failed to fetch Pokémon by name");
+                activity.runOnUiThread(() -> {
+                    Toast.makeText(context, "Failed to fetch Pokémon", Toast.LENGTH_SHORT).show();
+                });
+            }
+        });
+    }
 }

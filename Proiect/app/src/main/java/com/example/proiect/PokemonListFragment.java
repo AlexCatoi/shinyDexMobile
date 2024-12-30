@@ -67,13 +67,22 @@ public class PokemonListFragment extends Fragment {
 
         if(util!=null)
             util.resetFetcher();
-        if(seeAll==null)
+        if(seeAll==null /*&& searchText==null*/)
             util.fetchPokemonBatch(api, searchText, null, type, game);
-        else{
+        else if(seeAll!=null /*&& searchText==null*/){
             List<String> pokes_caught=jsonhelp.readJsonFile(getContext(),"pokemon_caught_data.json","name");
             Log.d("pokes",""+pokes_caught);
             util.fetchPokemonBatch(api, searchText, pokes_caught, type, game);
         }
+        /*else if(seeAll==null && searchText!=null)
+        {
+            util.fetchPokemonBySearch(api,searchText,type,null);
+        }
+        else{
+            List<String> pokes_caught=jsonhelp.readJsonFile(getContext(),"pokemon_caught_data.json","name");
+            Log.d("pokes",""+pokes_caught);
+            util.fetchPokemonBySearch(api, searchText, type, pokes_caught);
+        }*/
 
 
     }
@@ -156,8 +165,8 @@ public class PokemonListFragment extends Fragment {
         popupMenu.show();
     }
 
-    public void updateFilters(String type,String seeAll) {
-        fetchAllPokemon(null, seeAll, type, null);
+    public void updateFilters(String search,String type,String seeAll) {
+        fetchAllPokemon(search, seeAll, type, null);
     }
 
 

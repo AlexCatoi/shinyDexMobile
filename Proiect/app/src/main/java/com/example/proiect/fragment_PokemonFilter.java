@@ -23,6 +23,9 @@ public class fragment_PokemonFilter extends Fragment {
     private Spinner spinnerType;
     private Spinner spinnerGame;
     private Spinner spinnerGeneration;
+    private String selectedType = null;
+    private String selectedname = null;
+    private String seeAll = null;
 
     @Nullable
     @Override
@@ -36,10 +39,8 @@ public class fragment_PokemonFilter extends Fragment {
         spinnerType = rootView.findViewById(R.id.spinner_type);
         spinnerGame = rootView.findViewById(R.id.spinner_game);
         spinnerGeneration = rootView.findViewById(R.id.spinner_generation);
-
         // Set up listeners
         setupListeners();
-
         return rootView;
     }
 
@@ -50,6 +51,8 @@ public class fragment_PokemonFilter extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 // Perform search operation
                 Toast.makeText(getContext(), "Searching for: " + query, Toast.LENGTH_SHORT).show();
+                selectedname=query;
+                passFiltersToMainActivity(selectedname, seeAll, selectedType, null,0);
                 return false;
             }
 
@@ -63,24 +66,31 @@ public class fragment_PokemonFilter extends Fragment {
         // Handle checkbox state change
         checkboxFilter.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                Toast.makeText(getContext(), "Showing all Pokémon", Toast.LENGTH_SHORT).show();
-                passFiltersToMainActivity(null, null, null, null,0);
+                seeAll=null;
+                /*Toast.makeText(getContext(), "Showing all Pokémon", Toast.LENGTH_SHORT).show();
+                passFiltersToMainActivity(null, null, null, null,0);*/
             } else {
-                Toast.makeText(getContext(), "Showing caught pokemon", Toast.LENGTH_SHORT).show();
-                passFiltersToMainActivity(null, "y", null, null,0);
+                seeAll="y";
+               /* Toast.makeText(getContext(), "Showing caught pokemon", Toast.LENGTH_SHORT).show();
+                passFiltersToMainActivity(null, "y", null, null,0);*/
             }
+            passFiltersToMainActivity(selectedname, seeAll, selectedType, null,0);
         });
 
         // Handle spinner selection
         spinnerType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedType = parent.getItemAtPosition(position).toString();
+                selectedType = parent.getItemAtPosition(position).toString();
+                Log.d("type",selectedType);
+                if(selectedType.equals("All Types"))
+                    selectedType=null;
                 Log.d("FilterFragment", "Selected type: " + selectedType);
-                if(selectedType.contains("All"))
+                passFiltersToMainActivity(selectedname, seeAll, selectedType, null,0);
+                /*if(selectedType.contains("All"))
                     passFiltersToMainActivity(null, null, null, null,0);
                 else
-                    passFiltersToMainActivity(null,null,selectedType,null,0);
+                    passFiltersToMainActivity(null,null,selectedType,null,0);*/
             }
 
             @Override
@@ -94,6 +104,7 @@ public class fragment_PokemonFilter extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedGame = parent.getItemAtPosition(position).toString();
                 Toast.makeText(getContext(), "Game selected: " + selectedGame, Toast.LENGTH_SHORT).show();
+                passFiltersToMainActivity(selectedname, seeAll, selectedType, null,0);
             }
 
             @Override
@@ -114,6 +125,7 @@ public class fragment_PokemonFilter extends Fragment {
                 // Optional: handle no selection
             }
         });
+        passFiltersToMainActivity(null, null, null, null,0);
     }
     private void passFiltersToMainActivity(String searchText, String seeAll, String type, String game, int generation) {
         if (getActivity() instanceof MainActivity) {
