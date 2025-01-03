@@ -8,13 +8,14 @@
 
     <item
         android:id="@+id/nav_add_pokemon"
+        android:icon="@drawable/target_icon"
 
-    android:title="Search" />
+    android:title="Add/Hunt" />
 
     <!-- Menu item for third tab -->
     <item
         android:id="@+id/nav_profile"
 
-    android:title="Profile" />
+    android:title="Comming soon" />
 
 </menu>

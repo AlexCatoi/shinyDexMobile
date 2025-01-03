@@ -64,6 +64,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Add Pokémon" />
+            <!-- Start Hunt button -->
+            <Button
+                android:id="@+id/btn_start_hunt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Start Hunt!"
+                android:layout_marginVertical="100dp"/>
         </LinearLayout>
+
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

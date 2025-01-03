@@ -1,6 +1,7 @@
 package com.example.proiect;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,7 @@ public class AddPokemonFragment extends Fragment {
     private CheckBox checkboxShinyCharm;
     private CheckBox checkboxShinyLuck;
     private Button btnAddPokemon;
+    private Button btnStartHunt;
 
     private List<String> gameList; // List of games for spinner
 private PokemonFetcher util;
@@ -52,10 +54,11 @@ private PokemonFetcher util;
         checkboxShinyCharm = view.findViewById(R.id.checkbox_shiny_charm);
         checkboxShinyLuck = view.findViewById(R.id.checkbox_shiny_luck);
         btnAddPokemon = view.findViewById(R.id.btn_add_pokemon);
+        btnStartHunt=view.findViewById(R.id.btn_start_hunt);
         util = new PokemonFetcher(getContext(),getActivity());
         // Set Add Pokémon button click listener
         btnAddPokemon.setOnClickListener(v -> addPokemon());
-
+        btnStartHunt.setOnClickListener(v->StartHunt());
         return view;
     }
 
@@ -173,5 +176,11 @@ private PokemonFetcher util;
             return null;
         }
     }
+    private void StartHunt() {
+        // Create an Intent to navigate from MainActivity to SecondActivity
+        Intent HuntActivity = new Intent(getActivity(), HuntActivity.class);
 
+        // Start the new activity
+        startActivity(HuntActivity);
+    }
 }

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HuntActivity">
+
+    <!-- Toolbar with Back Button -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:title="Hunt Activity"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:titleTextColor="@android:color/white"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- ScrollView for Main Content -->
+    <ScrollView
+        android:id="@+id/pickers"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <!-- LinearLayout for Form Elements -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Text field for Pokémon name -->
+            <EditText
+                android:id="@+id/input_pokemon_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Pokémon Name"
+                android:inputType="text" />
+
+            <!-- Two spinners side by side -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp">
+
+                <!-- Spinner 1 -->
+                <Spinner
+                    android:id="@+id/spinner_game"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:entries="@array/game_options"/>
+
+                <!-- Spinner 2 -->
+                <Spinner
+                    android:id="@+id/spinner_method"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:entries="@array/game_options"
+                    android:layout_marginStart="16dp"/>
+            </LinearLayout>
+
+            <!-- CheckBox for Shiny Charm -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp">
+
+                <!-- CheckBox for Shiny Charm -->
+                <CheckBox
+                    android:id="@+id/checkbox_shiny_charm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Had Shiny Charm" />
+
+                <!-- CheckBox for Shiny Luck -->
+                <CheckBox
+                    android:id="@+id/checkbox_shiny_luck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Had Shiny Luck"
+                    android:layout_marginStart="16dp" />
+
+            </LinearLayout>
+            <Button
+                android:id="@+id/btn_start_hunt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Hunt!"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- ScrollView for Ongoing Hunts -->
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pickers">
+
+
+        <GridLayout
+            android:id="@+id/pokemon_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="1"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:useDefaultMargins="true"
+            android:layout_gravity="center_horizontal"
+            />
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
