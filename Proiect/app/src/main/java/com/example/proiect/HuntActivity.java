@@ -47,7 +47,7 @@ public class HuntActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        GridLayout container=findViewById(R.id.pokemon_container);
+        GridLayout container=findViewById(R.id.pokemon_container_hunt);
         start=findViewById(R.id.btn_start_hunt);
         nameField=findViewById(R.id.input_pokemon_name);
         gameField=findViewById(R.id.spinner_game);

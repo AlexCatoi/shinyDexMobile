@@ -106,16 +106,17 @@
 
     <!-- ScrollView for Ongoing Hunts -->
     <ScrollView
-        android:id="@+id/scroll_view"
+        android:id="@+id/scroll_view_hunt"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pickers">
+        app:layout_constraintTop_toBottomOf="@id/pickers"
+        app:layout_constraintBottom_toBottomOf="parent">
 
 
         <GridLayout
-            android:id="@+id/pokemon_container"
+            android:id="@+id/pokemon_container_hunt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:columnCount="1"

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -120,7 +121,7 @@ public class HuntManager {
         savePokemonToJsonFile(pokemonData);
 
         // Display success message
-        Toast.makeText(context, "Hunt Saved!", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, "Hunt Saved!", Toast.LENGTH_SHORT).show();
     }
 
     private void savePokemonToJsonFile(JSONObject pokemonData) {
@@ -202,6 +203,13 @@ private void setListner(View pokeView){
             int nr=Integer.parseInt(aux.getText().toString());
             nr++;
             aux.setText(String.valueOf(nr));
+            pokeView.post(() -> {
+                // Ensure that the parent ScrollView can still scroll after updates
+                ScrollView scrollView = pokeView.findViewById(R.id.scroll_view_hunt);
+                if (scrollView != null) {
+                    scrollView.requestLayout();  // Request layout update
+                }
+            });
         });
         save=pokeView.findViewById(R.id.save);
         save.setOnClickListener(v->{
