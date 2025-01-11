@@ -67,7 +67,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:entries="@array/game_options"
+                    android:entries="@array/method_options"
                     android:layout_marginStart="16dp"/>
             </LinearLayout>
 

@@ -21,7 +21,10 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 
 import retrofit2.Call;
@@ -85,7 +88,7 @@ public class PokemonListFragment extends Fragment {
             util.fetchPokemonBySearch(api, searchText, type, pokes_caught);
         }
 
-
+        calculateAndUpdateProgress();
     }
 
     // Helper method to convert dp to px
@@ -169,7 +172,30 @@ public class PokemonListFragment extends Fragment {
     public void updateFilters(String search,String type,String seeAll) {
         fetchAllPokemon(search, seeAll, type, null);
     }
+    private void calculateAndUpdateProgress() {
+        List<String> caughtPokemon = jsonhelp.readJsonFile(getContext(), "pokemon_caught_data.json", "name");
+        // Remove duplicates using a Set
+        Set<String> uniquePokemon = new HashSet<>(caughtPokemon);
+        int uniqueCount = uniquePokemon.size(); // Count of unique Pokémon
 
+        // Calculate progress as a percentage
+        double progress = (uniqueCount / 1025.0) * 100; // Divide by 1025 and multiply by 100 for percentage
+
+        // Update progress bar
+        progressBar.setProgress((int) progress); // Set progress bar value (rounded to an integer)
+
+        // Format the percentage text to show 2 decimal places
+        String progressText = String.format(Locale.US,"%.2f%%", progress); // Show 2 decimal places
+
+        // Update the text view with the formatted progress
+        progressPercent.setText(progressText);
+    }
+
+    private void updateProgress(int progress) {
+        // Set the progress in the progress bar and text
+        progressBar.setProgress(progress);
+        progressPercent.setText(progress + "%");
+    }
 
 }
 

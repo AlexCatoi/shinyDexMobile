@@ -54,7 +54,10 @@
             android:layout_marginTop="16dp"
             android:layout_weight="1"
             android:entries="@array/game_options"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:enabled="false"
+            android:clickable="false"
+            android:focusable="false"/>
 
         <!-- Dropdown Selector 3 (Spinner) -->
         <Spinner
@@ -64,7 +67,10 @@
             android:layout_marginTop="16dp"
             android:layout_weight="1"
             android:entries="@array/generation_options"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:enabled="false"
+            android:clickable="false"
+            android:focusable="false"/>
     </LinearLayout>
 
 </LinearLayout>

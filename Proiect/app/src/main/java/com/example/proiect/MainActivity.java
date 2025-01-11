@@ -49,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
             } else if (item.getItemId() == R.id.nav_add_pokemon) {
                 selectedFragment = new AddPokemonFragment();
             }
+            else if(item.getItemId()==R.id.nav_games){
+                selectedFragment = new GamesFragment();
+            }
             if (selectedFragment != null) {
                 loadFragment(selectedFragment);
             }

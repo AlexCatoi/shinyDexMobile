@@ -41,6 +41,13 @@ public class fragment_PokemonFilter extends Fragment {
         spinnerGeneration = rootView.findViewById(R.id.spinner_generation);
         // Set up listeners
         setupListeners();
+        spinnerGame.setEnabled(false);
+        spinnerGame.setClickable(false);
+        spinnerGame.setFocusable(false);
+
+        spinnerGeneration.setEnabled(false);
+        spinnerGeneration.setClickable(false);
+        spinnerGeneration.setFocusable(false);
         return rootView;
     }
 
@@ -103,7 +110,7 @@ public class fragment_PokemonFilter extends Fragment {
                 // Optional: handle no selection
             }
         });
-
+/*
         spinnerGame.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -130,6 +137,7 @@ public class fragment_PokemonFilter extends Fragment {
                 // Optional: handle no selection
             }
         });
+ */
         passFiltersToMainActivity(null, null, null, null,0);
     }
     private void passFiltersToMainActivity(String searchText, String seeAll, String type, String game, int generation) {

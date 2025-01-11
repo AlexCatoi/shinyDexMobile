@@ -45,4 +45,12 @@
         <item>Generation VIII</item>
         <item>Generation IX</item>
     </string-array>
+    <string-array name="method_options">
+        <item>Breeding</item>
+        <item>RandomEncounter</item>
+        <item>Masuda</item>
+        <item>MassOutbreak</item>
+        <item>DynamaxRaid</item>
+        <item>SoftReset</item>
+    </string-array>
 </resources>
